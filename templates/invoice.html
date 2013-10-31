@@ -1,0 +1,102 @@
+<div class="invoice">
+  <div class="header">
+    <div class="supplier">
+      <p>
+        <strong>{{ _("Supplier", "Furnizor") }}:</strong>
+        {{ supplier.name }}
+      </p>
+      <p>{{ supplier.details }}</p>
+      <p>{{ supplier.address }}</p>
+      <p>{{ supplier.bank }}</p>
+      <p>
+        {{ _("account", "cont") }} {{ currency }}:
+        <strong>{{ supplier.accounts[currency] }}</strong>
+      </p>
+    </div>
+
+    <div class="client">
+      <p><strong>Client:</strong> {{ client.name }}</p>
+      <p>{{ client.details }}</p>
+      <p>{{ client.address }}</p>
+      <p>{{ client.bank }}</p>
+    </div>
+
+    <div class="headline">
+      <h2>{{ _("Invoice", "Factură") }}</h2>
+
+      <p class="number">
+        {{ _("Number", "Număr") }}
+        <strong>{{ invoice.number }}</strong>,
+
+        {{ _("date", "din") }}
+        <time>{{ invoice.date|datefmt }}</time>,
+
+        {{ _("payment terms", "scadentă la") }}
+        <time>{{ invoice.due_date|datefmt }}</time>
+      </p>
+
+      <p class="currency-vat">
+        {{ _("exchange rate", "curs valutar") }}:
+        <strong>{{ invoice.exchange_rate['EUR'] }}</strong><br>
+        &mdash; {{ currency }} &mdash; {{ _("VAT rate", "cotă TVA") }} 0%
+      </p>
+    </div>
+
+  </div>
+
+
+  <table class="products">
+    <thead>
+      <th>Nr.</th>
+      <th>{{ _("Description", "Denumire produs/serviciu") }}</th>
+      <th>UM</th>
+      <th>{{ _("Quantity", "Cantitate") }}</th>
+      <th>{{ _("Unit price", "Preț unitar") }}</th>
+      <th>{{ _("Amount", "Valoare") }}</th>
+    </thead>
+
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>
+          {{ invoice.product }}
+        </td>
+        <td>oră</td>
+        <td>{{ invoice.hours }}</td>
+        <td>{{ invoice.price_hour }}</td>
+        <td>{{ invoice.total }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <table class="footer">
+    <tbody>
+      <tr>
+        <td rowspan=2 class="supplier_sign">
+          <p>{{ _("Supplier sign", "Semnătura și ștampila furnizorului") }}</p>
+          <p>{{ supplier.delegate }}</p>
+        </td>
+
+        <td rowspan=2 class="delegate">
+          {% if invoice.local %}
+            <p>Date privind expediția</p>
+            <p>Numele delegatului: {{ client.delegate }}</p>
+          {% endif %}
+        </td>
+
+        <td>
+          <p>Total: <strong>{{ invoice.total }}</strong></p>
+          {%- if not invoice.local %}
+            <p>Total (RON): {{ invoice.total_ron }}</p>
+          {%- endif %}
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <p class="signature">Semnătură de primire</p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,12 @@
+{% extends 'layout.html' %}
+
+
+{% block content %}
+  <h1>Invoices</h1>
+  <ul>
+    {%- for invoice in model.invoices %}
+      {%- set url = url_for('.invoice', code=invoice.code) %}
+      <li><a href="{{ url }}">{{ invoice }}</a></li>
+    {%- endfor %}
+  </ul>
+{% endblock content %}

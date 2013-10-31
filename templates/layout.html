@@ -1,0 +1,13 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet/less"
+          href="{{ url_for('static', filename='style.less') }}">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/less.js/1.4.1/less.min.js">
+    </script>
+  </head>
+  <body>
+    {% block content %}{% endblock %}
+  </body>
+</html>

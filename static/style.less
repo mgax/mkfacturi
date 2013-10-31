@@ -1,0 +1,144 @@
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+
+.breadcrumbs {
+    position: fixed;
+    top: 10px; left: 10px;
+
+    a, a:visited {
+        color: #55f;
+        text-decoration: none;
+        font-size: 18px;
+    }
+
+    @media print {
+        display: none;
+    }
+}
+
+
+.paper-a4 {
+    @media screen {
+        width: 210mm;
+        height: 297mm;
+        position: relative;
+        overflow: hidden;
+        margin: 10mm auto;
+        outline: 0.3mm solid #555;
+        box-shadow: 0 0 1em #555;
+    }
+}
+
+
+.middle {
+    position: absolute;
+    top: 140mm;
+    width: 100%;
+
+    @media print {
+        display: none;
+    }
+}
+
+
+.invoice {
+    width: 180mm;
+    height: 120mm;
+    position: relative;
+    font-family: Helvetica, sans-serif;
+    font-size: 14px;
+    margin-bottom: 10mm;
+
+    @media screen {
+        margin: 15mm auto;
+    }
+}
+
+
+.header {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 48mm;
+    padding: 3mm;
+    border: 0.3mm solid #555;
+
+    p {
+        margin: 0;
+    }
+
+    time {
+        font-weight: bold;
+    }
+
+    .client, .supplier {
+        width: 85mm;
+        height: 30mm;
+    }
+    .client { float: right; }
+    .supplier { float: left; }
+
+    .headline {
+        clear: both;
+
+        h2 {
+            text-align: center;
+        }
+
+        .number, .currency-vat {
+            position: absolute;
+            bottom: 0;
+            padding: 2mm;
+        }
+        .number { left: 0; }
+        .currency-vat { right: 0; text-align: right; }
+    }
+}
+
+
+.products, .footer {
+    width: 180mm;
+    border-collapse: collapse;
+
+    th, td {
+        border: 0.3mm solid #555;
+        vertical-align: top;
+        padding: 1mm;
+    }
+
+    p {
+        margin: 1mm 0;
+    }
+}
+
+
+.products {
+    position: absolute;
+    top: 55mm; left: 0; right: 0;
+    height: 34mm;
+
+    .exchange_rate {
+        margin: 2mm 0;
+    }
+}
+
+
+.footer {
+    position: absolute;
+    top: 90mm; left: 0; right: 0;
+    height: 30mm;
+
+    .supplier_sign {
+        width: 65mm;
+    }
+
+    .delegate {
+        width: 55mm;
+    }
+
+    .signature {
+        height: 10mm;
+    }
+}
