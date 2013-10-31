@@ -1,0 +1,49 @@
+supplier:
+  name: "Gigel S.R.L."
+  address: "13 Strada Lungă, București"
+  details: "C.I.F. 12345678 R.C. F40/1234/2013"
+  vat_number: "RO87654321"
+  delegate: "Gigel Jmecherul, CI: XX 555444"
+  bank: "ING Bank Romania București"
+  accounts:
+    RON: "RO----------------------"
+    EUR: "RO----------------------"
+
+
+clients:
+  acm:
+    name: "Acme Inc."
+    local: true
+    details: "C.I.F. RO66666666 R.C. J40/22222/2013"
+    address: "Bd. Scurt nr 22, sector 5 București"
+    delegate: "Popescu Ion"
+    bank: "CEC Bank RO----------------------"
+
+  oth:
+    name: "Other Client"
+    local: false
+    details: "foo bar baz"
+    address: "Someplace Rainy, London, UK"
+    delegate: "Beef Eater"
+    bank: ""
+
+
+contracts:
+  acm-1: {client: acm, date: 2013-03-10, due_days: 14, price_hour: 1 EUR}
+  oth-1: {client: oth, date: 2013-04-20, due_days: 21, price_hour: 2 EUR}
+
+
+invoices:
+  - number: 1
+    date: 2013-03-25
+    contract: acm-1
+    product: "Prestare servicii conform comanda 1"
+    hours: 40
+    exchange_rate: {EUR: '4.4255'}
+
+  - number: 2
+    date: 2013-05-10
+    contract: oth-1
+    product: "Prestare servicii conform comanda 2"
+    hours: 45
+    exchange_rate: {EUR: '4.4250'}
