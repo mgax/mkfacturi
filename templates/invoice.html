@@ -6,10 +6,11 @@
         {{ supplier.name }}
       </p>
       <p>{{ supplier.details }}</p>
+      <p>VAT {{ supplier.vat_number }}</p>
       <p>{{ supplier.address }}</p>
       <p>{{ supplier.bank }}</p>
       <p>
-        {{ _("account", "cont") }} {{ currency }}:
+        {{ currency }}:
         <strong>{{ supplier.accounts[currency] }}</strong>
       </p>
     </div>
@@ -17,6 +18,7 @@
     <div class="client">
       <p><strong>Client:</strong> {{ client.name }}</p>
       <p>{{ client.details }}</p>
+      <p>VAT {{ client.vat_number }}</p>
       <p>{{ client.address }}</p>
       <p>{{ client.bank }}</p>
     </div>
@@ -61,9 +63,9 @@
         <td>
           {{ invoice.product }}
         </td>
-        <td>oră</td>
-        <td>{{ invoice.hours }}</td>
-        <td>{{ invoice.price_hour }}</td>
+        <td>{{ invoice.contract.unit }} </td>
+        <td>{{ invoice.quantity }}</td>
+        <td>{{ invoice.price_per_unit }}</td>
         <td>{{ invoice.total }}</td>
       </tr>
     </tbody>
@@ -94,7 +96,9 @@
 
       <tr>
         <td>
-          <p class="signature">Semnătură de primire</p>
+          <p class="signature">
+            {{-_("Signature of receipt", "Semnătură de primire")-}}
+          </p>
         </td>
       </tr>
     </tbody>

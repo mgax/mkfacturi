@@ -33,7 +33,8 @@ class Contract:
         self.code = code
         self.client = client
         self.due_days = data['due_days']
-        self.price_hour = data['price_hour']
+        self.unit = data['unit']
+        self.price_per_unit = data['price_per_unit']
 
 
 class Invoice:
@@ -45,19 +46,19 @@ class Invoice:
         self.date = data['date']
         self.due_date = self.date + timedelta(days=self.contract.due_days)
         self.product = data['product']
-        self.hours = data['hours']
+        self.quantity = data['quantity']
         self.exchange_rate = {k: Decimal(v) for k, v in
                               data['exchange_rate'].items()}
-        price_hour_str, currency = self.contract.price_hour.split()
-        self.price_hour = Decimal(price_hour_str)
+        price_per_unit_str, currency = self.contract.price_per_unit.split()
+        self.price_per_unit = Decimal(price_per_unit_str)
 
         if self.local:
             exchange = self.exchange_rate[currency]
-            self.price_hour = q(q(self.price_hour * exchange, 2), 4)
-            self.total = q(self.price_hour * self.hours, 2)
+            self.price_per_unit = q(q(self.price_per_unit * exchange, 2), 4)
+            self.total = q(self.price_per_unit * self.quantity, 2)
 
         else:
-            self.total = q(self.price_hour * self.hours, 2)
+            self.total = q(self.price_per_unit * self.quantity, 2)
             self.total_ron = q(self.total * self.exchange_rate[currency], 2)
 
     @property

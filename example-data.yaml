@@ -15,6 +15,7 @@ clients:
     name: "Acme Inc."
     local: true
     details: "C.I.F. RO66666666 R.C. J40/22222/2013"
+    vat_number: "XX99999999"
     address: "Bd. Scurt nr 22, sector 5 București"
     delegate: "Popescu Ion"
     bank: "CEC Bank RO----------------------"
@@ -29,8 +30,8 @@ clients:
 
 
 contracts:
-  acm-1: {client: acm, date: 2013-03-10, due_days: 14, price_hour: 1 EUR}
-  oth-1: {client: oth, date: 2013-04-20, due_days: 21, price_hour: 2 EUR}
+  acm-1: {client: acm, date: 2013-03-10, due_days: 14, unit: "hour", price_per_unit: 1 EUR}
+  oth-1: {client: oth, date: 2013-04-20, due_days: 21, unit: "hour", price_per_unit: 2 EUR}
 
 
 invoices:
@@ -38,12 +39,12 @@ invoices:
     date: 2013-03-25
     contract: acm-1
     product: "Prestare servicii conform comanda 1"
-    hours: 40
+    quantity: 40
     exchange_rate: {EUR: '4.4255'}
 
   - number: 2
     date: 2013-05-10
     contract: oth-1
     product: "Prestare servicii conform comanda 2"
-    hours: 45
+    quantity: 45
     exchange_rate: {EUR: '4.4250'}
