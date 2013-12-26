@@ -5,6 +5,7 @@ import os.path
 from datetime import timedelta
 from decimal import Decimal
 import flask
+from flask.ext.script import Manager
 import yaml
 
 pages = flask.Blueprint('pages', __name__)
@@ -139,6 +140,11 @@ def create_app():
     app.register_blueprint(pages)
     app.jinja_env.globals['_'] = translate
     return app
+
+
+def create_manager(app):
+    manager = Manager(app)
+    return manager
 
 
 if __name__ == '__main__':
