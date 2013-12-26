@@ -57,6 +57,7 @@ class Invoice:
             exchange = self.exchange_rate[currency]
             self.price_per_unit = q(q(self.price_per_unit * exchange, 2), 4)
             self.total = q(self.price_per_unit * self.quantity, 2)
+            self.total_ron = self.total
 
         else:
             self.total = q(self.price_per_unit * self.quantity, 2)
@@ -144,4 +145,11 @@ def create_app():
 
 def create_manager(app):
     manager = Manager(app)
+
+    @manager.command
+    def dump():
+        model = read_model()
+        for invoice in model.invoices:
+            print invoice.date, invoice.total_ron
+
     return manager
