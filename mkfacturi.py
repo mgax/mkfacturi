@@ -145,8 +145,3 @@ def create_app():
 def create_manager(app):
     manager = Manager(app)
     return manager
-
-
-if __name__ == '__main__':
-    app = create_app()
-    app.run(debug=True)
