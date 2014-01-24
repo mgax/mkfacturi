@@ -107,7 +107,7 @@ def invoice(code):
                 'supplier': model.supplier,
                 'invoice': invoice,
                 'client': invoice.client,
-                'currency': "RON" if invoice.local else "EUR",
+                'payment_currency': "RON" if invoice.local else "EUR",
                 'n': flask.request.args.get('n', '1', type=int),
             })
 

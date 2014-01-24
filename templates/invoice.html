@@ -10,8 +10,8 @@
       <p>{{ supplier.address }}</p>
       <p>{{ supplier.bank }}</p>
       <p>
-        {{ currency }}:
-        <strong>{{ supplier.accounts[currency] }}</strong>
+        {{ payment_currency }}:
+        <strong>{{ supplier.accounts[payment_currency] }}</strong>
       </p>
     </div>
 
@@ -40,7 +40,7 @@
       <p class="currency-vat">
         {{ _("exchange rate", "curs valutar") }}:
         <strong>{{ invoice.exchange_rate['EUR'] }}</strong><br>
-        &mdash; {{ currency }} &mdash; {{ _("VAT rate", "cotă TVA") }} 0%
+        &mdash; {{ payment_currency }} &mdash; {{ _("VAT rate", "cotă TVA") }} 0%
       </p>
     </div>
 
