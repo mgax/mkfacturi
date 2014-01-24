@@ -52,6 +52,7 @@ class Invoice:
                               data['exchange_rate'].items()}
         price_per_unit_str, currency = self.contract.price_per_unit.split()
         self.price_per_unit = Decimal(price_per_unit_str)
+        self.currency = currency
 
         if self.local:
             exchange = self.exchange_rate[currency]
@@ -107,7 +108,8 @@ def invoice(code):
                 'supplier': model.supplier,
                 'invoice': invoice,
                 'client': invoice.client,
-                'payment_currency': "RON" if invoice.local else "EUR",
+                'payment_currency': \
+                    "RON" if invoice.local else invoice.currency,
                 'n': flask.request.args.get('n', '1', type=int),
             })
 

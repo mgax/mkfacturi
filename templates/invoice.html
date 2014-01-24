@@ -39,7 +39,7 @@
 
       <p class="currency-vat">
         {{ _("exchange rate", "curs valutar") }}:
-        <strong>{{ invoice.exchange_rate['EUR'] }}</strong><br>
+        <strong>{{ invoice.exchange_rate[invoice.currency] }}</strong><br>
         &mdash; {{ payment_currency }} &mdash; {{ _("VAT rate", "cotă TVA") }} 0%
       </p>
     </div>
