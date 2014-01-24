@@ -6,7 +6,7 @@
         {{ supplier.name }}
       </p>
       <p>{{ supplier.details }}</p>
-      <p>VAT {{ supplier.vat_number }}</p>
+      {% if supplier.vat_number %}<p>VAT {{ supplier.vat_number }}</p>{% endif %}
       <p>{{ supplier.address }}</p>
       <p>{{ supplier.bank }}</p>
       <p>
@@ -18,7 +18,7 @@
     <div class="client">
       <p><strong>Client:</strong> {{ client.name }}</p>
       <p>{{ client.details }}</p>
-      <p>VAT {{ client.vat_number }}</p>
+      {% if client.vat_number %}<p>VAT {{ client.vat_number }}</p>{% endif %}
       <p>{{ client.address }}</p>
       <p>{{ client.bank }}</p>
     </div>
