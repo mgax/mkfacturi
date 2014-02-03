@@ -6,6 +6,7 @@ from datetime import timedelta
 from decimal import Decimal
 import flask
 from flask.ext.script import Manager
+from jinja2 import Markup, escape
 import yaml
 
 pages = flask.Blueprint('pages', __name__)
@@ -115,6 +116,11 @@ def invoice(code):
 
     else:
         flask.abort(404)
+
+
+@pages.app_template_filter()
+def nl2br(value):
+    return escape(value).replace('\n', Markup('<br>\n'))
 
 
 @pages.app_template_filter('datefmt')
