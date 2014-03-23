@@ -29,6 +29,16 @@ class Company(object):
         self.accounts = data.get('accounts')
 
 
+class Supplier(Company):
+
+    def __init__(self, data, code):
+        super(Supplier, self).__init__(data, code)
+        self.invoice_number_format = data.get('invoice_number_format', '{}')
+
+    def format_invoice_number(self, number):
+        return self.invoice_number_format.format(number)
+
+
 class Contract(object):
 
     def __init__(self, data, code, client):
@@ -41,10 +51,11 @@ class Contract(object):
 
 class Invoice(object):
 
-    def __init__(self, data, contract):
+    def __init__(self, data, supplier, contract):
+        self.supplier = supplier
         self.contract = contract
         self.code = "{data[date]}-{data[number]}".format(data=data)
-        self.number = data['number']
+        self.number = self.supplier.format_invoice_number(data['number'])
         self.date = data['date']
         self.due_date = self.date + timedelta(days=self.contract.due_days)
         self.product = data['product']
@@ -80,12 +91,14 @@ class Invoice(object):
 class Model(object):
 
     def __init__(self, data):
-        self.supplier = Company(data['supplier'], None)
+        self.supplier = Supplier(data['supplier'], None)
         self.clients = {c: Company(d, c) for c, d in data['clients'].items()}
         self.contracts = {c: Contract(d, c, self.clients[d['client']])
                           for c, d in data['contracts'].items()}
-        self.invoices = [Invoice(i, self.contracts[i['contract']])
-                         for i in data['invoices']]
+        self.invoices = [
+            Invoice(i, self.supplier, self.contracts[i['contract']])
+            for i in data['invoices']
+        ]
 
 
 def read_model():

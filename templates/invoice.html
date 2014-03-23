@@ -24,11 +24,15 @@
     </div>
 
     <div class="headline">
-      <h2>{{ _("Invoice", "Factură") }}</h2>
+      <h2>
+        {{ _("Invoice", "Factură") }}
+      </h2>
 
       <p class="number">
-        {{ _("Number", "Număr") }}
-        <strong>{{ invoice.number }}</strong>,
+        <strong>
+          {{ _('invoice', 'factura') }}
+          {{ invoice.number -}}
+        </strong>,
 
         {{ _("date", "din") }}
         <time>{{ invoice.date|datefmt }}</time>,
