@@ -16,7 +16,7 @@ def q(value, places):
     return value.quantize(1 / Decimal(10 ** places))
 
 
-class Company:
+class Company(object):
 
     def __init__(self, data, code):
         self.code = code
@@ -29,7 +29,7 @@ class Company:
         self.accounts = data.get('accounts')
 
 
-class Contract:
+class Contract(object):
 
     def __init__(self, data, code, client):
         self.code = code
@@ -39,7 +39,7 @@ class Contract:
         self.price_per_unit = data['price_per_unit']
 
 
-class Invoice:
+class Invoice(object):
 
     def __init__(self, data, contract):
         self.contract = contract
@@ -77,7 +77,7 @@ class Invoice:
         return u"{s.date} #{s.number} – {s.client.code}".format(s=self)
 
 
-class Model:
+class Model(object):
 
     def __init__(self, data):
         self.supplier = Company(data['supplier'], None)
