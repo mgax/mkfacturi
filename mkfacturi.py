@@ -59,7 +59,7 @@ class Invoice(object):
         self.date = data['date']
         self.due_date = self.date + timedelta(days=self.contract.due_days)
         self.product = data['product']
-        self.quantity = data['quantity']
+        self.quantity = Decimal(data['quantity'])
         self.exchange_rate = {k: Decimal(v) for k, v in
                               data['exchange_rate'].items()}
         price_per_unit_str, currency = self.contract.price_per_unit.split()
