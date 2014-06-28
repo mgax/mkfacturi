@@ -20,12 +20,12 @@ class Company(object):
 
     def __init__(self, data, code):
         self.code = code
-        self.name = data['name']
+        self.name = data.get('name', None)
         self.local = data.get('local')
-        self.details = data['details']
-        self.address = data['address']
-        self.delegate = data['delegate']
-        self.bank = data['bank']
+        self.details = data.get('details')
+        self.address = data.get('address')
+        self.delegate = data.get('delegate')
+        self.bank = data.get('bank')
         self.accounts = data.get('accounts')
 
 
@@ -44,9 +44,9 @@ class Contract(object):
     def __init__(self, data, code, client):
         self.code = code
         self.client = client
-        self.due_days = data['due_days']
-        self.unit = data['unit']
-        self.price_per_unit = data['price_per_unit']
+        self.due_days = data.get('due_days')
+        self.unit = data.get('unit')
+        self.price_per_unit = data.get('price_per_unit')
 
 
 class Invoice(object):
@@ -57,14 +57,17 @@ class Invoice(object):
         self.code = "{data[date]}-{data[number]}".format(data=data)
         self.number = self.supplier.format_invoice_number(data['number'])
         self.date = data['date']
-        self.due_date = self.date + timedelta(days=self.contract.due_days)
+        due_days = data.get('due_days', contract.due_days)
+        self.due_date = self.date + timedelta(days=due_days)
         self.product = data['product']
         self.quantity = Decimal(data['quantity'])
         self.exchange_rate = {k: Decimal(v) for k, v in
                               data['exchange_rate'].items()}
-        price_per_unit_str, currency = self.contract.price_per_unit.split()
+        price_per_unit = data.get('price_per_unit', contract.price_per_unit)
+        price_per_unit_str, currency = price_per_unit.split()
         self.price_per_unit = Decimal(price_per_unit_str)
         self.currency = currency
+        self.unit = data.get('unit', contract.unit)
 
         if self.local:
             exchange = self.exchange_rate[currency]
