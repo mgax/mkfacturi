@@ -21,12 +21,12 @@ class Company(object):
     def __init__(self, data, code):
         self.code = code
         self.name = data.get('name', None)
-        self.local = data.get('local')
-        self.details = data.get('details')
-        self.address = data.get('address')
-        self.delegate = data.get('delegate')
-        self.bank = data.get('bank')
-        self.accounts = data.get('accounts')
+        self.local = data.get('local', False)
+        self.details = data.get('details', "")
+        self.address = data.get('address', "")
+        self.delegate = data.get('delegate', "")
+        self.bank = data.get('bank', "")
+        self.accounts = data.get('accounts', "")
 
 
 class Supplier(Company):
