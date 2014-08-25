@@ -4,7 +4,7 @@
 {% block content %}
   <h1>Invoices</h1>
   <ul>
-    {%- for invoice in model.invoices %}
+    {%- for invoice in model.invoices|reverse %}
       {%- set url = url_for('.invoice', code=invoice.code) %}
       <li><a href="{{ url }}">{{ invoice }}</a></li>
     {%- endfor %}
