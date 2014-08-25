@@ -6,6 +6,7 @@
           href="{{ url_for('static', filename='style.less') }}">
     <script src="//cdnjs.cloudflare.com/ajax/libs/less.js/1.4.1/less.min.js">
     </script>
+    <title>{% block title %}{% endblock %}</title>
   </head>
   <body>
     {% block content %}{% endblock %}

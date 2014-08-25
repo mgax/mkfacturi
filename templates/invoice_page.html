@@ -1,6 +1,9 @@
 {% extends 'layout.html' %}
 
 
+{% block title %}{{ invoice.number }} &mdash; mkfacturi{% endblock %}
+
+
 {% block content %}
   <div class="breadcrumbs">
     <a href="{{ url_for('.home') }}">&laquo; index</a>
