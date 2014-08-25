@@ -69,6 +69,10 @@ class Invoice(object):
         self.currency = currency
         self.unit = data.get('unit', contract.unit)
 
+        payment_currency = "RON" if self.local else self.currency
+        self.payment_currency = payment_currency
+        self.account = data.get('account', supplier.accounts[payment_currency])
+
         if self.local:
             exchange = self.exchange_rate[currency]
             self.price_per_unit = q(q(self.price_per_unit * exchange, 2), 4)
@@ -125,8 +129,6 @@ def invoice(code):
                 'supplier': model.supplier,
                 'invoice': invoice,
                 'client': invoice.client,
-                'payment_currency': \
-                    "RON" if invoice.local else invoice.currency,
                 'n': flask.request.args.get('n', '1', type=int),
             })
 
