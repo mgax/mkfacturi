@@ -23,6 +23,7 @@ class Company(object):
         self.name = data.get('name', None)
         self.local = data.get('local', False)
         self.details = data.get('details', "")
+        self.vat_number = data.get('vat_number', "")
         self.address = data.get('address', "")
         self.delegate = data.get('delegate', "")
         self.bank = data.get('bank', "")
