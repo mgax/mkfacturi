@@ -18,13 +18,13 @@
     </div>
 
     <div class="client">
-      <p><strong>Client:</strong> {{ client.name }}</p>
-      <p>{{ client.details }}</p>
-      {% if supplier.vat_number and client.vat_number %}
-        <p>{{ _("VAT", "TVA") }}: {{ client.vat_number }}</p>
+      <p><strong>Client:</strong> {{ invoice.name }}</p>
+      <p>{{ invoice.details }}</p>
+      {% if supplier.vat_number and invoice.vat_number %}
+        <p>{{ _("VAT", "TVA") }}: {{ invoice.vat_number }}</p>
       {% endif %}
-      <p>{{ client.address }}</p>
-      <p>{{ client.bank }}</p>
+      <p>{{ invoice.address }}</p>
+      <p>{{ invoice.bank }}</p>
     </div>
 
     <div class="headline">

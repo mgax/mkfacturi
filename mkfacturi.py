@@ -11,23 +11,37 @@ import yaml
 
 pages = flask.Blueprint('pages', __name__)
 
+missing = object()
+
 
 def q(value, places):
     return value.quantize(1 / Decimal(10 ** places))
 
 
+defaults = {
+    'name': None,
+    'local': False,
+    'details': "",
+    'vat_number': "",
+    'address': "",
+    'delegate': "",
+    'bank': "",
+    'account': None,
+    'accounts': {},
+}
+
+
 class Company(object):
 
     def __init__(self, data, code):
+        self._data = data
         self.code = code
-        self.name = data.get('name', None)
-        self.local = data.get('local', False)
-        self.details = data.get('details', "")
-        self.vat_number = data.get('vat_number', "")
-        self.address = data.get('address', "")
-        self.delegate = data.get('delegate', "")
-        self.bank = data.get('bank', "")
-        self.accounts = data.get('accounts', "")
+
+    def __getitem__(self, key):
+        rv = self._data.get(key, missing)
+        if rv is missing:
+            rv = defaults.get(key)
+        return rv
 
 
 class Supplier(Company):
@@ -43,38 +57,41 @@ class Supplier(Company):
 class Contract(object):
 
     def __init__(self, data, code, client):
+        self._data = data
         self.code = code
         self.client = client
-        self.due_days = data.get('due_days')
-        self.unit = data.get('unit')
-        self.price_per_unit = data.get('price_per_unit')
+
+    def __getitem__(self, key):
+        rv = self._data.get(key, missing)
+        if rv is missing:
+            rv = self.client[key]
+        return rv
 
 
 class Invoice(object):
 
     def __init__(self, data, supplier, contract):
+        self._data = data
+
         self.supplier = supplier
         self.contract = contract
-        self.code = "{data[date]}-{data[number]}".format(data=data)
-        self.number = self.supplier.format_invoice_number(data['number'])
-        self.date = data['date']
-        due_days = data.get('due_days', contract.due_days)
-        self.due_date = self.date + timedelta(days=due_days)
-        self.product = data['product']
-        self.quantity = Decimal(data['quantity'])
+        self.code = "{s[date]}-{s[number]}".format(s=self)
+        self.number = supplier.format_invoice_number(self['number'])
+        self.due_date = self['date'] + timedelta(days=self['due_days'])
+        self.quantity = Decimal(self['quantity'])
         self.exchange_rate = {k: Decimal(v) for k, v in
-                              data['exchange_rate'].items()}
-        price_per_unit = data.get('price_per_unit', contract.price_per_unit)
+                              self['exchange_rate'].items()}
+
+        price_per_unit = self['price_per_unit']
         price_per_unit_str, currency = price_per_unit.split()
         self.price_per_unit = Decimal(price_per_unit_str)
         self.currency = currency
-        self.unit = data.get('unit', contract.unit)
 
-        payment_currency = "RON" if self.local else self.currency
+        payment_currency = "RON" if self['local'] else self.currency
         self.payment_currency = payment_currency
-        self.account = data.get('account', supplier.accounts[payment_currency])
+        self.account = self['account'] or supplier['accounts'][payment_currency]
 
-        if self.local:
+        if self['local']:
             exchange = self.exchange_rate[currency]
             self.price_per_unit = q(q(self.price_per_unit * exchange, 2), 4)
             self.total = q(self.price_per_unit * self.quantity, 2)
@@ -84,16 +101,19 @@ class Invoice(object):
             self.total = q(self.price_per_unit * self.quantity, 2)
             self.total_ron = q(self.total * self.exchange_rate[currency], 2)
 
+    def __getitem__(self, key):
+        rv = self._data.get(key, missing)
+        if rv is missing:
+            rv = self.contract[key]
+        return rv
+
+
     @property
     def client(self):
         return self.contract.client
 
-    @property
-    def local(self):
-        return self.client.local
-
     def __str__(self):
-        return u"{s.date} #{s.number} – {s.client.code}".format(s=self)
+        return u"{s[date]} #{s[number]} – {s.client.code}".format(s=self)
 
 
 class Model(object):
@@ -124,7 +144,7 @@ def invoice(code):
     model = read_model()
     for invoice in model.invoices:
         if invoice.code == code:
-            if invoice.local:
+            if invoice['local']:
                 flask.g.lang = 'ro'
             return flask.render_template('invoice_page.html', **{
                 'supplier': model.supplier,
@@ -177,6 +197,6 @@ def create_manager(app):
     def dump():
         model = read_model()
         for invoice in model.invoices:
-            print invoice.date, invoice.total_ron
+            print invoice['date'], invoice.total_ron
 
     return manager
