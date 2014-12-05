@@ -28,6 +28,7 @@ defaults = {
     'bank': "",
     'account': None,
     'accounts': {},
+    'exchange_rate': {},
 }
 
 
@@ -87,12 +88,15 @@ class Invoice(object):
         self.price_per_unit = Decimal(price_per_unit_str)
         self.currency = currency
 
-        payment_currency = "RON" if self['local'] else self.currency
+        payment_currency = "RON" if self['local'] else currency
         self.payment_currency = payment_currency
         self.account = self['account'] or supplier['accounts'][payment_currency]
 
         if self['local']:
-            exchange = self.exchange_rate[currency]
+            if currency != payment_currency:
+                exchange = self.exchange_rate[currency]
+            else:
+                exchange = 1
             self.price_per_unit = q(q(self.price_per_unit * exchange, 2), 4)
             self.total = q(self.price_per_unit * self.quantity, 2)
             self.total_ron = self.total
