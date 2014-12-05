@@ -38,12 +38,11 @@ html, body {
 
 
 .middle {
-    position: absolute;
-    top: 140mm;
-    width: 100%;
+    height: 1pt;
+    border-bottom: 1px solid #666;
 
     @media print {
-        display: none;
+        border-bottom: none;
     }
 }
 
@@ -51,7 +50,7 @@ html, body {
 .invoice {
     width: 180mm;
     height: 120mm;
-    margin: 15mm;
+    margin: 14mm 15mm;
     overflow: hidden;
     position: relative;
     font-family: Helvetica, sans-serif;
